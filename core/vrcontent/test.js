@@ -44,22 +44,22 @@ function _init(el, obj) {
   scene.add(obj);
 
   // 周囲光を作成する
-  const ambientLight = new AmbientLight(0x666666);
-  ambientLight.position.set(100, -100, -200);
-  scene.add(ambientLight);
+  // const ambientLight = new AmbientLight(0x666666);
+  // ambientLight.position.set(100, -100, -200);
+  // scene.add(ambientLight);
 
   // 指向性ライトを作成する
-  const light = new DirectionalLight(0xcccccc, 1);
-  light.position.set(2000, 1000, 1000);
-  scene.add(light);
+  // const light = new DirectionalLight(0xcccccc, 1);
+  // light.position.set(2000, 1000, 1000);
+  // scene.add(light);
 
   // カメラを作成する
   const camera = new PerspectiveCamera(45, width / height, 1, 80000);
-  camera.position.set(-150, -50, 300);
+  camera.position.set(150, 50, 100);
 
   // レンダラーを作成する
   renderer = new WebGLRenderer({
-    antialias: true
+    // antialias: true
   });
   // レンダリング領域のサイズを設定する
   renderer.setSize(width, height);

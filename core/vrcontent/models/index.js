@@ -34,14 +34,15 @@ const COLORS = {
 
 
 const cubes = [];
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: COLORS.main_1 });
-cubes.push(new THREE.Mesh( geometry, material ));
-
-
-const light = new THREE.PointLight(COLORS.main_5, 5, 100);
-light.position.set( 50, 50, 50 );
-cubes.push(light);
+// const geometry = new THREE.BoxGeometry();
+// const material = new THREE.MeshBasicMaterial({ color: COLORS.main_1 });
+// cubes.push(new THREE.Mesh( geometry, material ));
+// 阳光
+const hemisphereLight = new THREE.HemisphereLight(COLORS.main_8, 0x000000, 1);
+cubes.push(hemisphereLight);
+// const light = new THREE.PointLight(COLORS.main_5, 5, 50);
+// light.position.set(0, 0, 40);
+// cubes.push(light);
 
 export {
   loadResource

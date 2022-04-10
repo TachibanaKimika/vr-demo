@@ -12,10 +12,16 @@ const start = async (ref) => {
   models.forEach(model => scene.add(model));
   const mainScene = await loadResource();
   scene.add(mainScene);
-  camera.position.z = 5;
-  camera.position.y = 2;
+  camera.position.x = 0;
+  camera.position.z = 3;
+  camera.position.y = 0;
   // const orbitControls = new OrbitControls(camera, el);
   // orbitControls.addEventListener('change', render);  
+  const controls = new OrbitControls( camera, renderer.domElement );
+  controls.addEventListener( 'change', render );
+  controls.minDistance = 2;
+  controls.maxDistance = 50;
+  controls.enablePan = false;
   function render() {
     renderer.render(scene, camera);
   }
