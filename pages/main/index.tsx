@@ -3,14 +3,20 @@ import start from 'core/vrcontent';
 const VRDemo = () => {
   const vrRef = useRef(null);
   useEffect(() => {
-    // console.log(vrRef)
-    if(vrRef) {
-      start(vrRef.current);
-    }
+    (async () => {
+      if (vrRef) {
+        const render = await start(vrRef.current);
+        render();
+      }
+    })()
   }, []);
 
   return (
-    <div ref={vrRef}></div>
+    <div className="main">
+      <div className="vr-content">
+        <div ref={vrRef}></div>
+      </div>
+    </div>
   );
 }
 

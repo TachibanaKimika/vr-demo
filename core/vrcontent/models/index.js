@@ -7,11 +7,11 @@ const loadResource = () => {
     const objLoader = new OBJLoader();
     const mtlLoader = new MTLLoader();
     // テクスチャファイルをロードする
-    mtlLoader.load('/models/source/scence.mtl', mtl => {
+    mtlLoader.load('/models/room/room.mtl', mtl => {
       // オブジェクトをロードする前に、まずテクスチャデータを設定します
       objLoader.setMaterials(mtl);
       // オブジェクトをロードする
-      objLoader.load('/models/source/scence.obj', res => {
+      objLoader.load('/models/room/room.obj', res => {
         resolve(res);
       }, undefined, reject);
     }, undefined, reject);
@@ -33,13 +33,15 @@ const COLORS = {
 };
 
 
-const cubes = [];
+const models = [];
 // const geometry = new THREE.BoxGeometry();
 // const material = new THREE.MeshBasicMaterial({ color: COLORS.main_1 });
 // cubes.push(new THREE.Mesh( geometry, material ));
 // 阳光
-const hemisphereLight = new THREE.HemisphereLight(COLORS.main_8, 0x000000, 1);
-cubes.push(hemisphereLight);
+const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+// models.push(hemisphereLight);
+const light = new THREE.AmbientLight(0x404040);
+models.push(light);
 // const light = new THREE.PointLight(COLORS.main_5, 5, 50);
 // light.position.set(0, 0, 40);
 // cubes.push(light);
@@ -47,4 +49,4 @@ cubes.push(hemisphereLight);
 export {
   loadResource
 };
-export default cubes;
+export default models;
