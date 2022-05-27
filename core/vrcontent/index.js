@@ -1,40 +1,51 @@
-import * as THREE from 'three';
-import models, { loadResource } from './models';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls';
+import * as THREE from 'three'
+import { loadResource } from './models'
+import { FlyControls } from 'three/examples/jsm/controls/FlyControls'
 
 const start = async (ref) => {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  ref.appendChild(renderer.domElement);
-  scene.background = new THREE.Color(0xbfe3dd);
-
-  models.forEach(model => scene.add(model));
-  const model = await loadResource();
-  model.position.set(1, 1, 0);
-  model.scale.set(0.1, 0.1, 0.1);
-  scene.add(model);
-
-  camera.position.set(0, 0, 3);
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.addEventListener('change', render);
-  controls.minDistance = 2;
-  controls.maxDistance = 50;
-  controls.enablePan = true;
-  // controls.target.set(0, 0.5, 0);
-  // 好像没用
-  controls.keys = {
-    LEFT: 'KeyA', //left arrow
-    UP: 'KeyW', // up arrow
-    RIGHT: 'KeyD', // right arrow
-    BOTTOM: 'KeyS' // down arrow
-  };
-  function render() {
-    renderer.render(scene, camera);
+  const scene = initScene()
+  const camera = initCamera()
+  const clock = new THREE.Clock()
+  const renderer = new THREE.WebGLRenderer()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  ref.appendChild(renderer.domElement)
+  scene.add(await loadResource())
+  addLight()
+  const controls = initFlyControls()
+  function initFlyControls() {
+    const controls = new FlyControls(camera, renderer.domElement)
+    controls.movementSpeed = 100
+    controls.rollSpeed = Math.PI / 12
+    // controls.autoForward = false
+    return controls
   }
-  return render;
-};
-
-export default start;
+  function render() {
+    controls.update(clock.getDelta())
+    renderer.render(scene, camera)
+    requestAnimationFrame(render)
+  }
+  function initScene() {
+    const scene = new THREE.Scene()
+    scene.background = new THREE.Color(0xF0FFFF)
+    return scene
+  }
+  function initCamera() {
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000)
+    camera.position.set(0, 100, -550)
+    // camera.lookAt(new THREE.Vector3(0, 0, 0))
+    return camera
+  }
+  function addLight() {
+    let light = new THREE.HemisphereLight(0xffffff, 0x444444)
+    light.position.set(0, 20, 0)
+    scene.add(light)
+    light = new THREE.DirectionalLight(0xffffff)
+    light.position.set(0, 20, 10)
+    light.castShadow = true
+    scene.add(light)
+    const ambientLight = new THREE.AmbientLight("#0C0C0C")
+    scene.add(ambientLight)
+  }
+  return render
+}
+export default start
