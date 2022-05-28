@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 import { loadResource } from './models';
 import { FlyControls } from 'three/examples/jsm/controls/FlyControls';
-// import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 const start = async (ref) => {
   const scene = initScene();
   const camera = initCamera();
   const clock = new THREE.Clock();
   const renderer = new THREE.WebGLRenderer();
-  if (navigator) {
-    // ref.appendChild(VRButton.createButton(renderer));
-  }
+  // !important error
+  ref.appendChild(VRButton.createButton(renderer));
+  
   renderer.xr.enabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   ref.appendChild(renderer.domElement);
